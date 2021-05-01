@@ -1,0 +1,7 @@
+<?php
+
+define("DB_PARAM", "");
+define("DB_USER", "");
+define("DB_PASSWORD", "");
+
+?>

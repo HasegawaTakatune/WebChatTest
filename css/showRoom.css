@@ -1,0 +1,31 @@
+.room-vires {
+    display              : grid;
+    grid-template-rows   : 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas  :
+        "find   find"
+        "create keys";
+}
+
+.wrapper-find-room {
+    overflow-y: scroll;
+}
+
+.find-room-contents {
+    background: #c0c0c0;
+}
+
+.room-find {
+    grid-area : find;
+    background: #202020;
+}
+
+.room-create {
+    grid-area : create;
+    background: #404040;
+}
+
+.room-keys {
+    grid-area : keys;
+    background: #606060;
+}
