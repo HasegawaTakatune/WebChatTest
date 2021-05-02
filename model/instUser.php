@@ -13,12 +13,12 @@ try{
     $stmt->execute();
 
     header('Content-type: application/json');
-    echo json_encode(array('result'=>true, 'name'=>$name));
+    echo json_encode(array('result'=>true, 'message'=>'Success', 'name'=>$name));
     
 }catch(Exception $e){
     var_dump($e->getmessage());
     header('Content-type: application/json');
-    echo json_encode(array('result'=>false, 'name'=>''));
+    echo json_encode(array('result'=>false, 'message'=>'Failed to add user.', 'name'=>''));
 }
 
 ?>

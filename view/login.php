@@ -45,6 +45,8 @@
                     <input class="form-control" id="input_password" type="password" placeholder="Password" require>
                 </div>
 
+                <input id="action" type="hidden" value="1">
+
                 <button class="btn btn-primary my-2" id="submit">Submit</button>
 
             </form>
