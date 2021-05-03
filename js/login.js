@@ -2,7 +2,9 @@ const SIGNIN = "Sign in";
 const SIGNUP = "Sign up";
 
 $(function () {
+
     $('[name="radio_sign"]:radio').change(function () {
+
         var type = $(this).val();
         if (type == 1) {
             $('#tab-title').text(SIGNIN);
@@ -18,29 +20,29 @@ $(function () {
     });
 
     $('#submit').click(function () {
-        var type = $('#radio_sign').val();
-
         $.ajax({
-            url: (type == 1) ? "../model/authUser.php" : "../model/instUser.php",
             type: "POST",
-            dataType: JSON,
+            url: "../model/dbAction.php",
+            dataType: "json",
             data: {
                 action: $('#action').val(),
                 name: $('#input_name').val(),
                 password: $('#input_password').val()
             },
-        })
-            .done(function (data) {
-                if (data[0].result)
-                    window.location.href = '../view/showRoom.php';
+
+            success: function (data) {
+                console.log(data);
+                if (data['result'])
+                    $('#alert').replaceWith('<div class="alert alert-danger" id="alert" role="alert"> ' + data['message'] + ' </div>'); // window.location.href = '../view/showRoom.php';
                 else {
-                    // $('#alert').replaceWith('<div class="alert alert-danger">Auth failure.</div>');
-                    $('#alert').text("A");
+                    $('#alert').replaceWith('<div class="alert alert-danger" id="alert" role="alert"> ' + data['message'] + ' </div>');
                 }
-            })
-            .fail(function (data) {
-                // $('#alert').replaceWith('<div class="alert alert-danger">Connection failure.</div>');
-                $('#alert').text("B");
-            })
+            },
+
+            error: function(data){
+                $('#alert').replaceWith('<div class="alert alert-danger" id="alert" role="alert">System Error</div>');
+                console.log(data);
+            }
+        })
     });
 });

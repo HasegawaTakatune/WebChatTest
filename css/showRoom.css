@@ -1,4 +1,4 @@
-.room-vires {
+.room-views {
     display              : grid;
     grid-template-rows   : 1fr 1fr;
     grid-template-columns: 1fr 1fr;
@@ -9,23 +9,31 @@
 
 .wrapper-find-room {
     overflow-y: scroll;
+    height: 200px;
 }
 
 .find-room-contents {
-    background: #c0c0c0;
+    background: #202020;
 }
 
 .room-find {
     grid-area : find;
-    background: #202020;
 }
 
 .room-create {
     grid-area : create;
-    background: #404040;
 }
 
 .room-keys {
     grid-area : keys;
-    background: #606060;
+}
+
+th {
+    padding-right: 50px;
+    padding-left: 10px;
+}
+
+td {
+    padding-right: 50px;
+    padding-left: 10px;
 }
