@@ -32,9 +32,9 @@ $(function () {
 
             success: function (data) {
                 console.log(data);
-                if (data['result'])
-                    $('#alert').replaceWith('<div class="alert alert-danger" id="alert" role="alert"> ' + data['message'] + ' </div>'); // window.location.href = '../view/showRoom.php';
-                else {
+                if (data['result']){
+                    $('#submit-sign').submit();
+                } else {
                     $('#alert').replaceWith('<div class="alert alert-danger" id="alert" role="alert"> ' + data['message'] + ' </div>');
                 }
             },

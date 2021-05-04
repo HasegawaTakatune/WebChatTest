@@ -13,8 +13,8 @@
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/login.js"></script>
-    <title id="tab-title">Sign in</title>
+    <script type="text/javascript" src="../js/joinKeyRoom.js"></script>
+    <title>Join Key Room</title>
 </head>
 
 <body class="bg-secondary">
@@ -22,32 +22,25 @@
     <div class="container">
 
         <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
-            <h1 id="page-title">Sign in <small>SkayWay chat sample</small></h1>
+            <h1>Join Key Room <small>SkayWay chat sample</small></h1>
         </div>
 
         <div class="panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
 
-            <form action="../view/showRoom.php" method="POST" class="p-5 rounded" id="submit-sign">
+            <form action="../view/room.php" method="POST" class="p-5 rounded" id="submit-sign">
 
-                <h1 class="h3 mb-3 fw-normal" id="form-title">Sign in</h1>
-
-                <div class="radio-inline">
-                    <label for="radio-sign-in"><input class="form-check-input" type="radio" name="radio_sign" id="radio-sign-in" value="1" checked>Sign in</label>
-                    <label for="radio-sign-up"><input class="form-check-input" type="radio" name="radio_sign" id="radio-sign-up" value="2">Sign up</label>
-                </div>
+                <h1 class="h3 mb-3 fw-normal" id="form-title">Room key</h1>
 
                 <div class="form-group">
                     <label class="control-label" for="input_name">Name</label>
-                    <input class="form-control" id="input_name" name="input_name" type="text" placeholder="Name" require>
+                    <input class="form-control" id="input_name" name="input_name" type="text" placeholder="Name" require disabled>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label" for="input_password">Password</label>
-                    <input class="form-control" id="input_password" type="password" placeholder="Password" require>
+                    <label class="control-label" for="input_key">key</label>
+                    <input class="form-control" id="input_key" type="text" placeholder="key">
                 </div>
-
-                <input id="action" type="hidden" value="<?=AUTH_USER?>">
-
+                <input id="action" type="hidden" value="<?=JOIN_KEY_ROOM?>">
                 <input class="btn btn-primary my-2" type="button" value="Submit" id="submit">
             </form>
         </div>

@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  $user = isset($_POST['name']) ? $_POST['name'] : '';
+  $_SESSION['name'] = $user;
+  var_dump($user);
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -20,109 +26,109 @@
     <div id="alert"></div>
 
     <div class="page-header">
-        <h1 id="page-title">Sign in <small>SkayWay chat sample</small></h1>
+        <h1 id="page-title">Room controller <small>SkayWay chat sample</small></h1>
     </div>
 
     <div class="container room-views">
 
         <div class="room-find panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
             <h1 class="h3 mb-3 fw-normal">Room list</h1>
-            
+
             <form action="" method="POST" class="p-5 rounded">
 
-            <input class="btn btn-primary my-2" type="button" value="find" id="find-rooms">
-            <div class="wrapper-find-room">
-                <div class="find-room-contents">
-                    <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>NofP</th>
-                            <th>Key</th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td>000001</td>
-                            <td>Sample1</td>
-                            <td>0</td>
-                            <td><input class="form-control" id="input-room-key" type="text" placeholder="Room key" disabled></td>
-                            <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room"></td>
-                        </tr>
-                        <tr>
-                            <td>000002</td>
-                            <td>Sample2</td>
-                            <td>0</td>
-                            <td><input class="form-control" id="input-room-key" type="text" placeholder="Room key" disabled></td>
-                            <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room"></td>
-                        </tr>
-                        <tr>
-                            <td>000003</td>
-                            <td>Sample3</td>
-                            <td>0</td>
-                            <td><input class="form-control" id="input-room-key" type="text" placeholder="Room key"></td>
-                            <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room"></td>
-                        </tr>
-                        <tr>
-                            <td>000004</td>
-                            <td>Sample4</td>
-                            <td>0</td>
-                            <td><input class="form-control" id="input-room-key" type="text" placeholder="Room key"></td>
-                            <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room"></td>
-                        </tr>
-                    </table>
+                <input class="btn btn-primary my-2" type="button" value="find" id="find-rooms">
+                <div class="wrapper-find-room">
+                    <div class="find-room-contents">
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <form action="../view/room.php" method="POST">
+                                    <td>000001</td>
+                                    <td>Sample1</td>
+                                    <td>public</td>
+                                    <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room1"></td>
+                                    <input type="hidden" name="room-name" value="Sample1">
+                                </form>
+                            </tr>
+                            <tr>
+                                <td>000002</td>
+                                <td>Sample2</td>
+                                <td>public</td>
+                                <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room2"></td>
+                            </tr>
+                            <tr>
+                                <form action="../view/auth_room.php" method="POST">
+                                    <td>000003</td>
+                                    <td>Sample3</td>
+                                    <td>key</td>
+                                    <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room3"></td>
+                                    <input type="hidden" name="room-name" value="Sample3">
+                                </form>
+                            </tr>
+                            <tr>
+                                <td>000004</td>
+                                <td>Sample4</td>
+                                <td>key</td>
+                                <td><input class="btn btn-primary my-2" type="button" value="Join" id="join-public-room4"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
             </form>
-
         </div>
-    
 
-    <div class="room-create panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
-        <h1 class="h3 mb-3 fw-normal">Create room</h1>
-        <form action="" method="POST" class="p-5 rounded">
 
-            <div class="control-label">Room type</div>
+        <div class="room-create panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
+            <h1 class="h3 mb-3 fw-normal">Create room</h1>
+            <form action="" method="POST" class="p-5 rounded" id="submit-create-room">
 
-            <div class="radio-inline">
-                <label for="radio-public-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-public-room" value="1" checked>Public</label>
-                <label for="radio-key-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-key-room" value="2">Key</label>
-                <label for="radio-private-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-private-room" value="3">Private</label>
-            </div>
+                <div class="control-label">Room type</div>
 
-            <div class="form-group">
-                <label class="control-label" for="input-name">Room Name</label>
-                <input class="form-control" id="input-name" type="text" placeholder="Room name" require>
-            </div>
+                <div class="radio-inline">
+                    <label for="radio-public-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-public-room" value="1" checked>Public</label>
+                    <label for="radio-key-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-key-room" value="2">Key</label>
+                    <label for="radio-private-room"><input class="form-check-input" type="radio" name="radio-type" id="radio-private-room" value="3">Private</label>
+                </div>
 
-            <div class="form-group">
-                <label class="control-label" for="input-key">Key</label>
-                <input class="form-control" id="input-key" type="text" placeholder="Room key word" disabled require>
-            </div>
+                <div class="form-group">
+                    <label class="control-label" for="input-name">Room Name</label>
+                    <input class="form-control" id="input-name" type="text" placeholder="Room name" require>
+                </div>
 
-            <input class="btn btn-primary my-2" type="button" value="Create" id="create-room">
+                <div class="form-group">
+                    <label class="control-label" for="input-key">Key</label>
+                    <input class="form-control" id="input-key" type="text" placeholder="Room key word" disabled require>
+                </div>
 
-        </form>
-    </div>
+                <input class="btn btn-primary my-2" type="button" value="Create" id="create-room">
 
-    <div class="room-keys panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
-        <h1 class="h3 mb-3 fw-normal">Join room</h1>
-        <form action="" method="POST" class="p-5 rounded">
+            </form>
+        </div>
 
-            <div class="form-group">
-                <label class="control-label" for="input-room-name">Room name</label>
-                <input class="form-control" id="input-room-name" type="text" placeholder="Room name" require>
-            </div>
+        <div class="room-keys panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
+            <h1 class="h3 mb-3 fw-normal">Join room</h1>
+            <form action="" method="POST" class="p-5 rounded" id="submit-join-private-room">
 
-            <div class="form-group">
-                <label class="control-label" for="input-key">Key</label>
-                <input class="form-control" id="input-key" type="text" placeholder="Key" require>
-            </div>
+                <div class="form-group">
+                    <label class="control-label" for="input-room-name">Room name</label>
+                    <input class="form-control" id="input-room-name" id="room-name" type="text" placeholder="Room name" require>
+                </div>
 
-            <input class="btn btn-primary my-2" type="button" value="Join" id="join-private-room">
+                <div class="form-group">
+                    <label class="control-label" for="input-key">Key</label>
+                    <input class="form-control" id="input-key" type="text" placeholder="Key" require>
+                </div>
 
-        </form>
-    </div>
+                <input class="btn btn-primary my-2" type="button" value="Join" id="join-private-room">
+
+            </form>
+        </div>
 
     </div>
 

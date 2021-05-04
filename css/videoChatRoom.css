@@ -1,0 +1,20 @@
+.video-views {
+    display              : grid;
+    grid-template-rows   : 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas  :
+        "message mine"
+        "video   video";
+}
+
+.video-mine {
+    grid-area: mine;
+}
+
+.video-message {
+    grid-area: message;
+}
+
+.video-chat {
+    grid-area: video;
+}
