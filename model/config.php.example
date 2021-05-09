@@ -4,4 +4,12 @@ define("DB_PARAM", "");
 define("DB_USER", "");
 define("DB_PASSWORD", "");
 
+define('AUTH_USER', 1);
+define('INST_USER', 2);
+define('SLCT_ROOM', 3);
+define('JOIN_KEY_ROOM', 4);
+define('INST_ROOM', 5);
+define('ADD_ROOM_MEMBER', 6);
+define('SUB_ROOM_MEMBER', 7);
+
 ?>

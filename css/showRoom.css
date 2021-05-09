@@ -28,6 +28,10 @@
     grid-area : keys;
 }
 
+tr *{
+    color: aliceblue;
+}
+
 th {
     padding-right: 50px;
     padding-left: 10px;

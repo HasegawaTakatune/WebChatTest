@@ -33,7 +33,7 @@
 
                 <div class="form-group">
                     <label class="control-label" for="input_name">Name</label>
-                    <input class="form-control" id="input_name" name="input_name" type="text" placeholder="Name" require disabled>
+                    <input class="form-control" id="input_name" name="room-name" type="text" placeholder="Name" require disabled>
                 </div>
 
                 <div class="form-group">

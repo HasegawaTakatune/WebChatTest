@@ -1,4 +1,4 @@
-<?php require_once('../model/dbAction.php');?>
+<?php require_once('../model/config.php'); ?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -27,7 +27,7 @@
 
         <div class="panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
 
-            <form action="../view/showRoom.php" method="POST" class="p-5 rounded" id="submit-sign">
+            <form action="../view/showRoom.php" method="POST" class="p-5 rounded" id="send-sign">
 
                 <h1 class="h3 mb-3 fw-normal" id="form-title">Sign in</h1>
 
@@ -45,10 +45,8 @@
                     <label class="control-label" for="input_password">Password</label>
                     <input class="form-control" id="input_password" type="password" placeholder="Password" require>
                 </div>
-
-                <input id="action" type="hidden" value="<?=AUTH_USER?>">
-
-                <input class="btn btn-primary my-2" type="button" value="Submit" id="submit">
+                <input id="action" type="hidden" name="action" value="<?=AUTH_USER?>">
+                <input class="btn btn-primary my-2" type="button" value="Send" id="try-sign">
             </form>
         </div>
     </div>

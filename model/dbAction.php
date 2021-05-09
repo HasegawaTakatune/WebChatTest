@@ -2,11 +2,10 @@
 
 require_once('config.php');
 
-define('AUTH_USER', 1);
-define('INST_USER', 2);
-define('SLCT_ROOM', 3);
-define('JOIN_KEY_ROOM', 4);
-define('INST_ROOM', 5);
+if(empty($_POST)){
+    header('Content-type: application/json');
+    echo json_encode(array('result'=>false, 'message'=>'Connection failed.', 'name'=>''));
+}
 
 $connect = new PDO(DB_PARAM, DB_USER, DB_PASSWORD, array(PDO::ATTR_EMULATE_PREPARES => false));
 if(!$connect){
@@ -66,17 +65,21 @@ function InstUser(){
     }
 
     try{
+        $connect->beginTransaction();
+
         $hash = password_hash($password, PASSWORD_DEFAULT);
     
         $stmt = $connect->prepare("INSERT INTO USER (name, password, timestamp) VALUES(:name, :password, NOW()) ");
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
         $stmt->execute();
+        $connect->commit();
 
         header('Content-type: application/json');
         echo json_encode(array('result'=>true, 'message'=>'Successful addition of user. ', 'name'=>$name));
     
     }catch(Exception $e){
+        $connect->rollBack();
         var_dump($e->getmessage());
         header('Content-type: application/json');
         echo json_encode(array('result'=>false, 'message'=>'Connection failed.', 'name'=>''));
@@ -157,17 +160,87 @@ function InstRoom(){
     }
 
     try{
+        $connect->beginTransaction();
 
-        $stmt = $connect->prepare("INSERT INTO ROOM (name, type, key) VALUES(:name, :type, :key) ");
+        $stmt = $connect->prepare("INSERT INTO ROOM (name, type, key, member) VALUES(:name, :type, :key, 1) ");
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':type', $type, PDO::PARAM_STR);
         $stmt->bindParam(':key', $key, PDO::PARAM_STR);
         $stmt->execute();
+        $connect->commit();
 
         header('Content-type: application/json');
         echo json_encode(array('result'=>true, 'message'=>'Successful acquisition of room.'));
     
     }catch(Exception $e){
+        $connect->rollBack();
+        var_dump($e->getmessage());
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>false, 'message'=>'Connection failed.', 'room'=>''));
+    }
+}
+
+function AddRoomMember(){
+    $name = isset($_POST['name']) ? $_POST['name'] : null;
+    global $connect;
+
+    if(empty($name)){
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>false, 'message'=>'Information is not available.'));
+        return;
+    }
+
+    try{
+        $connect->beginTransaction();
+
+        $stmt = $connect->prepare("UPDATE ROOM SET member = member + 1 WHERE name = :name");
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
+        $connect->commit();
+
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>true, 'message'=>'Successful acquisition of room.'));
+    }catch(Exception $e){
+        $connect->rollBack();
+        var_dump($e->getmessage());
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>false, 'message'=>'Connection failed.', 'room'=>''));
+    }
+}
+
+function SubRoomMember(){
+    $name = isset($_POST['name']) ? $_POST['name'] : null;
+    global $connect;
+
+    if(empty($name)){
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>false, 'message'=>'Information is not available.'));
+        return;
+    }
+
+    try{
+        $connect->beginTransaction();
+
+        $stmt = $connect->prepare("UPDATE ROOM SET member = member - 1 WHERE name = :name");
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $stmt = $connect->prepare("SELECT member FROM ROOM WHERE name = :name");
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(0 <= $row['member']){
+            $stmt = $connect->prepare("DELETE FROM ROOM WHERE name = :name");
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        $connect->commit();
+
+        header('Content-type: application/json');
+        echo json_encode(array('result'=>true, 'message'=>'Successful acquisition of room.'));
+    }catch(Exception $e){
+        $connect->rollBack();
         var_dump($e->getmessage());
         header('Content-type: application/json');
         echo json_encode(array('result'=>false, 'message'=>'Connection failed.', 'room'=>''));
@@ -180,7 +253,9 @@ switch($_POST['action']){
     case SLCT_ROOM: SlctRoom(); break;
     case JOIN_KEY_ROOM: JoinKeyRoom(); break;
     case INST_ROOM: InstRoom(); break;
+    case ADD_ROOM_MEMBER: AddRoomMember(); break;
+    case SUB_ROOM_MEMBER: SubRoomMember(); break;
     default: break;
-
-
 }
+
+$connect = null;
