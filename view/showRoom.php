@@ -1,8 +1,9 @@
 <?php
+  require_once('../model/config.php');
+
   session_start();
   $user = isset($_POST['name']) ? $_POST['name'] : '';
   $_SESSION['name'] = $user;
-  var_dump($user);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -34,12 +35,13 @@
         <div class="room-find panel-default border rownded overflow-hidden flex-md-row mb-4 shadow-sm text-white bg-dark">
             <h1 class="h3 mb-3 fw-normal">Room list</h1>
 
-            <form action="" method="POST" class="p-5 rounded">
+            <!-- <form action="" method="POST" class="p-5 rounded"> -->
 
-                <input class="btn btn-primary my-2" type="button" value="find" id="find-rooms">
+                <input class="btn btn-primary my-2" type="button" value="find" id="find-room">
+                <input type="hidden" name="action" id="action" value="<?=SLCT_ROOM?>">
                 <div class="wrapper-find-room">
                     <div class="find-room-contents">
-                        <table>
+                        <table id="room_table">
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -80,7 +82,7 @@
                     </div>
                 </div>
 
-            </form>
+            <!-- </form> -->
         </div>
 
 

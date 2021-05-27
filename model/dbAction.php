@@ -94,15 +94,21 @@ function SlctRoom(){
     try{
 
         if(is_null($name)){
-            $stmt = $connect->prepare("SELECT name, type FROM ROOM WHERE type != 'private' ");
+            $stmt = $connect->prepare("SELECT peer_id, name, type FROM ROOM WHERE type != 'private'");
         }else{
-            $stmt = $connect->prepare("SELECT name, type FROM ROOM WHERE name = :name AND  type != 'private' ");
+            $stmt = $connect->prepare("SELECT peer_id, name, type FROM ROOM WHERE name = :name AND  type != 'private' ");
             $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         }        
         $stmt->execute();
 
+        $rooms = [];
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $room = ['peer_id' => $row['peer_id'], 'name' => $row['name'], 'type' => $row['type']];
+            array_push($rooms, $room);
+        }
+
         header('Content-type: application/json');
-        echo json_encode(array('result'=>true, 'message'=>'Successful acquisition of room.', 'rooms'=>$stmt));
+        echo json_encode(array('result'=>true, 'message'=>'Successful acquisition of room.', 'rooms'=>$rooms));
 
     }catch(Exception $e){
         var_dump($e->getmessage());
